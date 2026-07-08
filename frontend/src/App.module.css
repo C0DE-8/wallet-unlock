@@ -1,0 +1,272 @@
+.shell {
+  min-height: 100vh;
+  background: #ffffff;
+  color: #121826;
+}
+
+.header {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 22px 0;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 20px;
+}
+
+.brand,
+.nav,
+.footerLinks {
+  display: flex;
+  align-items: center;
+}
+
+.brand {
+  gap: 10px;
+  color: #050b18;
+  font-size: 1.12rem;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.brandMark {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  background: #0b65c6;
+  box-shadow: 0 12px 24px rgba(11, 101, 198, 0.22);
+}
+
+.nav {
+  min-height: 48px;
+  padding: 4px;
+  gap: 4px;
+  border: 1px solid #dce8f7;
+  border-radius: 999px;
+  background: #f7fbff;
+}
+
+.nav a {
+  border-radius: 999px;
+  padding: 10px 16px;
+  color: #526071;
+  font-size: 0.95rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.nav a:hover,
+.nav a[class*='active'] {
+  color: #0b65c6;
+  background: #ffffff;
+  box-shadow: 0 8px 18px rgba(18, 24, 38, 0.08);
+}
+
+.headerCta {
+  justify-self: end;
+  min-height: 46px;
+  border-radius: 999px;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: #0b65c6;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 14px 28px rgba(11, 101, 198, 0.22);
+}
+
+.page {
+  width: min(1040px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 82px 0 112px;
+}
+
+.pageIntro {
+  max-width: 740px;
+  margin-bottom: 34px;
+}
+
+.kicker {
+  margin: 0 0 10px;
+  color: #0b65c6;
+  font-size: 0.82rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pageIntro h1,
+.notFound h1 {
+  margin: 0;
+  color: #050b18;
+  font-size: clamp(2.6rem, 7vw, 5.2rem);
+  line-height: 0.98;
+}
+
+.pageIntro p,
+.notFound p,
+.formNote {
+  color: #526071;
+}
+
+.form {
+  max-width: 760px;
+  padding: 26px;
+  border: 1px solid #dce8f7;
+  border-radius: 28px;
+  display: grid;
+  gap: 18px;
+  background: #f7fbff;
+}
+
+.form label {
+  display: grid;
+  gap: 8px;
+  color: #121826;
+  font-weight: 800;
+}
+
+.form input,
+.form select,
+.form textarea {
+  width: 100%;
+  border: 1px solid #cbdcf1;
+  border-radius: 16px;
+  padding: 14px 16px;
+  color: #121826;
+  background: #ffffff;
+  font: inherit;
+}
+
+.form textarea {
+  resize: vertical;
+}
+
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+  border-color: #0b65c6;
+  outline: 4px solid rgba(11, 101, 198, 0.14);
+}
+
+.form button {
+  min-height: 52px;
+  border: 0;
+  border-radius: 999px;
+  color: #ffffff;
+  background: #0b65c6;
+  font: inherit;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.formNote {
+  margin: 0;
+  font-size: 0.93rem;
+}
+
+.ruleGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.ruleGrid article {
+  min-height: 150px;
+  padding: 24px;
+  border: 1px solid #dce8f7;
+  border-radius: 28px;
+  background: #f7fbff;
+}
+
+.ruleGrid span {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  background: #1dbf73;
+  font-weight: 900;
+}
+
+.ruleGrid p {
+  margin: 18px 0 0;
+  color: #121826;
+  font-size: 1.08rem;
+  font-weight: 750;
+}
+
+.notFound {
+  width: min(760px, calc(100% - 32px));
+  min-height: 62vh;
+  margin: 0 auto;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+}
+
+.footer {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 34px 0 46px;
+  border-top: 1px solid #dce8f7;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.footer strong {
+  color: #050b18;
+}
+
+.footer p {
+  margin: 6px 0 0;
+  color: #526071;
+}
+
+.footerLinks {
+  gap: 18px;
+}
+
+.footerLinks a {
+  color: #0b65c6;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+@media (max-width: 780px) {
+  .header {
+    grid-template-columns: 1fr;
+  }
+
+  .nav {
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
+  .headerCta {
+    justify-self: start;
+  }
+
+  .ruleGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 520px) {
+  .form {
+    padding: 18px;
+    border-radius: 22px;
+  }
+}
