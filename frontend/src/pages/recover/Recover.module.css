@@ -1,7 +1,7 @@
 .flowHeader {
   margin-bottom: 28px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 14px;
 }
 
@@ -118,28 +118,92 @@
 .paymentGrid {
   margin-bottom: 18px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 12px;
 }
 
 .paymentOption {
-  min-height: 74px;
+  min-height: 104px;
   border: 1px solid #cbdcf1;
   border-radius: 18px;
   padding: 16px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   color: #121826;
   background: #ffffff;
   font-weight: 850;
   cursor: pointer;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.paymentOption:hover {
+  border-color: rgba(11, 101, 198, 0.4);
+  box-shadow: 0 14px 30px rgba(18, 24, 38, 0.08);
+  transform: translateY(-3px);
 }
 
 .paymentOption input {
+  flex: 0 0 auto;
   width: 18px;
   height: 18px;
   accent-color: #0b65c6;
+}
+
+.paymentOption span {
+  display: grid;
+  gap: 6px;
+}
+
+.paymentOption strong {
+  color: #050b18;
+  line-height: 1.15;
+}
+
+.paymentOption small {
+  color: #526071;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.reviewFeeCard {
+  margin-bottom: 18px;
+  border-radius: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  overflow: hidden;
+  color: #ffffff;
+  background: #121826;
+}
+
+.reviewFeeCard div {
+  padding: 20px;
+}
+
+.reviewFeeCard div + div {
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.reviewFeeCard span {
+  display: block;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.9rem;
+}
+
+.reviewFeeCard strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.35rem;
+}
+
+.saveNote {
+  margin: 14px 0 0;
+  color: #0b65c6;
+  font-size: 0.94rem;
+  font-weight: 800;
 }
 
 .feeGrid {
@@ -237,8 +301,14 @@
   .fieldGrid,
   .paymentGrid,
   .feeGrid,
-  .feeSummary {
+  .feeSummary,
+  .reviewFeeCard {
     grid-template-columns: 1fr;
+  }
+
+  .reviewFeeCard div + div {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    border-left: 0;
   }
 
   .formSection,

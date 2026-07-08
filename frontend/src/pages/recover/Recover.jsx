@@ -1,14 +1,44 @@
+import { useState } from 'react'
 import Layout from '../../components/layout/Layout.jsx'
 import layoutStyles from '../../components/layout/Layout.module.css'
 import styles from './Recover.module.css'
 
 const paymentWallets = [
-  'Bitcoin wallet',
-  'Ethereum wallet',
-  'BNB Smart Chain wallet',
-  'Solana wallet',
-  'Tron / USDT wallet',
-  'Invoice by card or bank',
+  {
+    id: 'btc',
+    name: 'Bitcoin wallet',
+    asset: 'BTC',
+    network: 'Bitcoin',
+    demoAddress: 'DEMO_BTC_REVIEW_FEE_WALLET_DO_NOT_SEND',
+  },
+  {
+    id: 'eth',
+    name: 'Ethereum wallet',
+    asset: 'ETH / USDT',
+    network: 'Ethereum ERC-20',
+    demoAddress: 'DEMO_ETH_REVIEW_FEE_WALLET_DO_NOT_SEND',
+  },
+  {
+    id: 'bnb',
+    name: 'BNB Smart Chain wallet',
+    asset: 'BNB / USDT',
+    network: 'BEP-20',
+    demoAddress: 'DEMO_BNB_REVIEW_FEE_WALLET_DO_NOT_SEND',
+  },
+  {
+    id: 'sol',
+    name: 'Solana wallet',
+    asset: 'SOL / USDC',
+    network: 'Solana',
+    demoAddress: 'DEMO_SOL_REVIEW_FEE_WALLET_DO_NOT_SEND',
+  },
+  {
+    id: 'tron',
+    name: 'Tron USDT wallet',
+    asset: 'USDT',
+    network: 'TRC-20',
+    demoAddress: 'DEMO_TRON_USDT_REVIEW_FEE_WALLET_DO_NOT_SEND',
+  },
 ]
 
 const lockedLocations = [
@@ -43,7 +73,51 @@ const cryptoFeeNotes = [
   },
 ]
 
+const initialFormData = {
+  name: '',
+  email: '',
+  contact: '',
+  lockedLocation: '',
+  asset: '',
+  network: '',
+  lockedAmount: '',
+  walletAddress: '',
+  transactionProof: '',
+  paymentWallet: '',
+  payingFrom: '',
+  paymentAsset: '',
+  feeSpeed: '',
+}
+
+const storageKey = 'watchwallet-recovery-form'
+
 function Recover() {
+  const [formData, setFormData] = useState(() => {
+    const savedData = window.localStorage.getItem(storageKey)
+
+    if (!savedData) {
+      return initialFormData
+    }
+
+    try {
+      return { ...initialFormData, ...JSON.parse(savedData) }
+    } catch {
+      return initialFormData
+    }
+  })
+
+  const selectedWallet = paymentWallets.find((wallet) => (
+    wallet.id === formData.paymentWallet
+  ))
+
+  const updateFormData = (event) => {
+    const { name, value } = event.target
+    const nextData = { ...formData, [name]: value }
+
+    setFormData(nextData)
+    window.localStorage.setItem(storageKey, JSON.stringify(nextData))
+  }
+
   return (
     <Layout>
       <main className={layoutStyles.page}>
@@ -70,6 +144,11 @@ function Recover() {
           </article>
           <article>
             <span>3</span>
+            <strong>Review fee</strong>
+            <p>Preview the demo payment wallet and fee details.</p>
+          </article>
+          <article>
+            <span>4</span>
             <strong>Written approval</strong>
             <p>Receive the scope and invoice before sending any payment.</p>
           </article>
@@ -84,15 +163,33 @@ function Recover() {
             <div className={styles.fieldGrid}>
               <label>
                 Full name
-                <input type="text" name="name" placeholder="Your name" />
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your name"
+                  value={formData.name}
+                  onChange={updateFormData}
+                />
               </label>
               <label>
                 Email address
-                <input type="email" name="email" placeholder="you@example.com" />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  value={formData.email}
+                  onChange={updateFormData}
+                />
               </label>
               <label>
                 Telegram or phone
-                <input type="text" name="contact" placeholder="Optional contact method" />
+                <input
+                  type="text"
+                  name="contact"
+                  placeholder="Optional contact method"
+                  value={formData.contact}
+                  onChange={updateFormData}
+                />
               </label>
             </div>
           </section>
@@ -105,7 +202,11 @@ function Recover() {
             <div className={styles.fieldGrid}>
               <label>
                 Locked location
-                <select name="lockedLocation" defaultValue="">
+                <select
+                  name="lockedLocation"
+                  value={formData.lockedLocation}
+                  onChange={updateFormData}
+                >
                   <option value="" disabled>
                     Select where the funds are locked
                   </option>
@@ -116,11 +217,21 @@ function Recover() {
               </label>
               <label>
                 Asset or token
-                <input type="text" name="asset" placeholder="Example: BTC, ETH, USDT" />
+                <input
+                  type="text"
+                  name="asset"
+                  placeholder="Example: BTC, ETH, USDT"
+                  value={formData.asset}
+                  onChange={updateFormData}
+                />
               </label>
               <label>
                 Network
-                <select name="network" defaultValue="">
+                <select
+                  name="network"
+                  value={formData.network}
+                  onChange={updateFormData}
+                >
                   <option value="" disabled>
                     Select a network
                   </option>
@@ -135,11 +246,23 @@ function Recover() {
               </label>
               <label>
                 Estimated locked amount
-                <input type="text" name="lockedAmount" placeholder="Example: 0.25 BTC or 4,000 USDT" />
+                <input
+                  type="text"
+                  name="lockedAmount"
+                  placeholder="Example: 0.25 BTC or 4,000 USDT"
+                  value={formData.lockedAmount}
+                  onChange={updateFormData}
+                />
               </label>
               <label className={styles.wideField}>
                 Public wallet address or account reference
-                <input type="text" name="walletAddress" placeholder="Public wallet address, exchange case ID, or platform username" />
+                <input
+                  type="text"
+                  name="walletAddress"
+                  placeholder="Public wallet address, exchange case ID, or platform username"
+                  value={formData.walletAddress}
+                  onChange={updateFormData}
+                />
               </label>
               <label className={styles.wideField}>
                 Transaction hash or public proof
@@ -147,6 +270,8 @@ function Recover() {
                   name="transactionProof"
                   rows="4"
                   placeholder="Paste public transaction hashes, explorer links, dates, and the platform involved"
+                  value={formData.transactionProof}
+                  onChange={updateFormData}
                 ></textarea>
               </label>
             </div>
@@ -154,34 +279,72 @@ function Recover() {
 
           <section className={styles.formSection}>
             <div className={styles.sectionTitle}>
-              <p className={layoutStyles.kicker}>Payment plan</p>
-              <h2>Choose how you want to pay after approval.</h2>
+              <p className={layoutStyles.kicker}>Review fee</p>
+              <h2>Choose a demo wallet for the review fee flow.</h2>
               <p>
-                The receiving wallet or invoice address is provided only after
-                the case is reviewed and scoped. Verify the invoice details
-                before sending payment.
+                This preview shows how the fee step works. The addresses below
+                are demo placeholders and are not real payment wallets.
               </p>
+            </div>
+            <div className={styles.reviewFeeCard}>
+              <div>
+                <span>Demo review fee</span>
+                <strong>$49</strong>
+              </div>
+              <div>
+                <span>Status</span>
+                <strong>Preview only</strong>
+              </div>
+              <div>
+                <span>Invoice timing</span>
+                <strong>After review</strong>
+              </div>
             </div>
             <div className={styles.paymentGrid}>
               {paymentWallets.map((wallet) => (
-                <label className={styles.paymentOption} key={wallet}>
-                  <input type="radio" name="paymentWallet" value={wallet} />
-                  <span>{wallet}</span>
+                <label className={styles.paymentOption} key={wallet.id}>
+                  <input
+                    type="radio"
+                    name="paymentWallet"
+                    value={wallet.id}
+                    checked={formData.paymentWallet === wallet.id}
+                    onChange={updateFormData}
+                  />
+                  <span>
+                    <strong>{wallet.name}</strong>
+                    <small>{wallet.asset} on {wallet.network}</small>
+                  </span>
                 </label>
               ))}
             </div>
             <div className={styles.fieldGrid}>
               <label>
                 Paying from wallet address
-                <input type="text" name="payingFrom" placeholder="Optional public sender wallet" />
+                <input
+                  type="text"
+                  name="payingFrom"
+                  placeholder="Optional public sender wallet"
+                  value={formData.payingFrom}
+                  onChange={updateFormData}
+                />
               </label>
               <label>
                 Preferred payment asset
-                <input type="text" name="paymentAsset" placeholder="Example: BTC, ETH, USDT, USD" />
+                <input
+                  type="text"
+                  name="paymentAsset"
+                  placeholder="Example: BTC, ETH, USDT, USD"
+                  value={formData.paymentAsset}
+                  onChange={updateFormData}
+                />
               </label>
               <label>
                 Fee speed preference
-                <select name="feeSpeed" defaultValue="">
+                <select
+                  name="feeSpeed"
+                  value={formData.feeSpeed}
+                  onChange={updateFormData}
+                >
                   <option value="" disabled>
                     Select a speed
                   </option>
@@ -192,22 +355,26 @@ function Recover() {
                 </select>
               </label>
               <label>
-                Service fee estimate
+                Review fee estimate
                 <input
                   type="text"
-                  value="Quoted after review"
+                  value="$49 demo review fee"
                   readOnly
                 />
               </label>
               <label className={styles.wideField}>
-                Invoice wallet destination
+                Selected demo payment wallet
                 <input
                   type="text"
-                  value="Assigned after review and written approval"
+                  value={selectedWallet?.demoAddress || 'Select a payment wallet above'}
                   readOnly
                 />
               </label>
             </div>
+            <p className={styles.saveNote}>
+              Your entries are saved locally in this browser while you type, so
+              refreshing the page will not clear the form.
+            </p>
           </section>
 
           <section className={styles.feeSection}>
