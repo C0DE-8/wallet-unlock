@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Layout from '../../components/layout/Layout.jsx'
 import styles from './Home.module.css'
 
 const stats = [
@@ -68,7 +69,7 @@ const faqs = [
   ],
 ]
 
-function Home({ Layout }) {
+function Home() {
   const [activeSlide, setActiveSlide] = useState(0)
   const slide = slides[activeSlide]
 
