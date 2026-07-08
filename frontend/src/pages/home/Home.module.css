@@ -11,6 +11,7 @@
 
 .heroCopy {
   max-width: 760px;
+  animation: riseIn 780ms ease both;
 }
 
 .eyebrow {
@@ -28,6 +29,7 @@
   font-size: clamp(3.6rem, 8.4vw, 7.3rem);
   line-height: 0.92;
   letter-spacing: -0.06em;
+  animation: textGlow 5s ease-in-out infinite;
 }
 
 .lede {
@@ -77,6 +79,7 @@
   background:
     radial-gradient(circle at 50% 24%, rgba(46, 137, 255, 0.28), transparent 14rem),
     linear-gradient(180deg, #eaf4ff 0%, #f8fbff 100%);
+  animation: floatCard 7s ease-in-out infinite;
 }
 
 .orbitOne,
@@ -90,6 +93,7 @@
 .orbitOne {
   width: 440px;
   height: 150px;
+  animation: orbitPulse 6s ease-in-out infinite;
 }
 
 .orbitTwo {
@@ -97,6 +101,7 @@
   height: 210px;
   border-color: rgba(29, 191, 115, 0.22);
   transform: rotate(26deg);
+  animation: orbitPulse 7s ease-in-out 600ms infinite;
 }
 
 .phone {
@@ -214,6 +219,7 @@
   color: #050b18;
   font-size: 2.3rem;
   line-height: 1;
+  animation: numberPop 1200ms ease both;
 }
 
 .stats span {
@@ -222,6 +228,7 @@
 
 .sliderSection,
 .featureSection,
+.marketSection,
 .supportSection,
 .faqSection {
   width: min(1180px, calc(100% - 32px));
@@ -230,6 +237,7 @@
 }
 
 .sliderSection,
+.marketSection,
 .supportSection {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
@@ -237,6 +245,7 @@
   align-items: center;
 }
 
+.marketIntro h2,
 .sliderCopy h2,
 .featureSection h2,
 .supportSection h2,
@@ -249,9 +258,216 @@
 }
 
 .sliderCopy p,
+.marketIntro p,
 .supportSection p,
 .faqGrid p {
   color: #526071;
+}
+
+.tradeBoard {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 16px;
+}
+
+.coinGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.coinCard,
+.tradePanel {
+  border: 1px solid #dce8f7;
+  border-radius: 28px;
+  background: #ffffff;
+  box-shadow: 0 22px 55px rgba(18, 24, 38, 0.08);
+}
+
+.coinCard {
+  position: relative;
+  overflow: hidden;
+  padding: 22px;
+  animation: riseIn 700ms ease both;
+  animation-delay: var(--delay);
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+}
+
+.coinCard::after {
+  content: '';
+  position: absolute;
+  right: -42px;
+  top: -42px;
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  background: rgba(11, 101, 198, 0.08);
+}
+
+.coinCard:hover {
+  border-color: rgba(11, 101, 198, 0.35);
+  transform: translateY(-8px);
+  box-shadow: 0 34px 70px rgba(18, 24, 38, 0.12);
+}
+
+.coinHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.coinHeader span {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  background: linear-gradient(135deg, #0b65c6, #2146ff);
+  font-size: 0.84rem;
+  font-weight: 900;
+}
+
+.coinHeader strong {
+  color: #1dbf73;
+  font-size: 0.92rem;
+}
+
+.coinCard h3 {
+  margin: 22px 0 6px;
+  color: #050b18;
+}
+
+.coinCard p {
+  margin: 0;
+  color: #050b18;
+  font-size: 1.65rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.coinCard div:last-of-type {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.coinCard small {
+  color: #526071;
+}
+
+.coinCard b {
+  color: #121826;
+}
+
+.coinCard em {
+  display: inline-flex;
+  margin-top: 14px;
+  border-radius: 999px;
+  padding: 7px 10px;
+  color: #0b65c6;
+  background: #eaf4ff;
+  font-size: 0.82rem;
+  font-style: normal;
+  font-weight: 850;
+}
+
+.tradePanel {
+  padding: 22px;
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 86% 16%, rgba(29, 191, 115, 0.28), transparent 8rem),
+    #101729;
+}
+
+.panelTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.9rem;
+}
+
+.panelTop strong {
+  color: #ffffff;
+}
+
+.chart {
+  height: 180px;
+  margin: 30px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  display: flex;
+  align-items: end;
+  gap: 10px;
+}
+
+.chart span {
+  flex: 1;
+  min-width: 18px;
+  border-radius: 999px 999px 0 0;
+  background: linear-gradient(180deg, #1dbf73, #0b65c6);
+  animation: barGrow 1600ms ease-in-out infinite alternate;
+}
+
+.chart span:nth-child(1) {
+  height: 34%;
+}
+
+.chart span:nth-child(2) {
+  height: 52%;
+  animation-delay: 120ms;
+}
+
+.chart span:nth-child(3) {
+  height: 42%;
+  animation-delay: 240ms;
+}
+
+.chart span:nth-child(4) {
+  height: 72%;
+  animation-delay: 360ms;
+}
+
+.chart span:nth-child(5) {
+  height: 58%;
+  animation-delay: 480ms;
+}
+
+.chart span:nth-child(6) {
+  height: 84%;
+  animation-delay: 600ms;
+}
+
+.chart span:nth-child(7) {
+  height: 66%;
+  animation-delay: 720ms;
+}
+
+.tradeRows {
+  display: grid;
+  gap: 10px;
+}
+
+.tradeRows div {
+  padding: 13px 14px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.tradeRows span {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.tradeRows strong {
+  color: #ffffff;
 }
 
 .slideCard {
@@ -263,6 +479,7 @@
     radial-gradient(circle at 88% 14%, rgba(255, 255, 255, 0.24), transparent 9rem),
     linear-gradient(135deg, #0b65c6 0%, #2146ff 100%);
   box-shadow: 0 28px 70px rgba(11, 101, 198, 0.22);
+  animation: floatCard 8s ease-in-out infinite;
 }
 
 .slideCard > span {
@@ -339,6 +556,14 @@
   border-radius: 30px;
   background: #ffffff;
   box-shadow: 0 20px 40px rgba(18, 24, 38, 0.06);
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.featureGrid article:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 60px rgba(18, 24, 38, 0.1);
 }
 
 .featureGrid span {
@@ -422,6 +647,7 @@
 
 @media (max-width: 900px) {
   .hero,
+  .marketSection,
   .sliderSection,
   .supportSection {
     grid-template-columns: 1fr;
@@ -446,10 +672,15 @@
   }
 
   .stats,
+  .tradeBoard,
   .featureGrid,
   .supportSection ul,
   .faqGrid {
     grid-template-columns: 1fr;
+  }
+
+  .coinGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .stats div + div {
@@ -482,6 +713,10 @@
     border-radius: 28px;
   }
 
+  .coinGrid {
+    grid-template-columns: 1fr;
+  }
+
   .slideControls {
     align-items: stretch;
     flex-direction: column;
@@ -490,5 +725,99 @@
   .slideControls div {
     justify-content: center;
     order: -1;
+  }
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes textGlow {
+  0%,
+  100% {
+    text-shadow: 0 0 0 rgba(11, 101, 198, 0);
+  }
+
+  50% {
+    text-shadow: 0 18px 50px rgba(11, 101, 198, 0.16);
+  }
+}
+
+@keyframes floatCard {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes orbitPulse {
+  0%,
+  100% {
+    opacity: 0.7;
+    scale: 1;
+  }
+
+  50% {
+    opacity: 1;
+    scale: 1.04;
+  }
+}
+
+@keyframes numberPop {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.92);
+  }
+
+  70% {
+    transform: translateY(0) scale(1.04);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes barGrow {
+  from {
+    transform: scaleY(0.72);
+    filter: saturate(0.8);
+  }
+
+  to {
+    transform: scaleY(1);
+    filter: saturate(1.4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroCopy,
+  .hero h1,
+  .phoneStage,
+  .orbitOne,
+  .orbitTwo,
+  .stats strong,
+  .coinCard,
+  .slideCard,
+  .chart span {
+    animation: none;
+  }
+
+  .coinCard,
+  .featureGrid article {
+    transition: none;
   }
 }

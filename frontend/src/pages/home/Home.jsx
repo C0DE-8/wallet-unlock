@@ -12,6 +12,41 @@ const stats = [
 
 const assets = ['BTC', 'ETH', 'BNB', 'SOL', 'TRX', 'USDT']
 
+const marketCoins = [
+  {
+    symbol: 'BTC',
+    name: 'Bitcoin',
+    price: '$64,240',
+    change: '+2.4%',
+    volume: '$41.8B',
+    fee: 'High security',
+  },
+  {
+    symbol: 'ETH',
+    name: 'Ethereum',
+    price: '$3,280',
+    change: '+1.8%',
+    volume: '$22.6B',
+    fee: 'Gas network',
+  },
+  {
+    symbol: 'SOL',
+    name: 'Solana',
+    price: '$148.60',
+    change: '+4.7%',
+    volume: '$5.9B',
+    fee: 'Fast transfers',
+  },
+  {
+    symbol: 'USDT',
+    name: 'Tether',
+    price: '$1.00',
+    change: '+0.1%',
+    volume: '$78.4B',
+    fee: 'Stable invoice',
+  },
+]
+
 const slides = [
   {
     title: 'Watch-only wallet review',
@@ -151,6 +186,71 @@ function Home() {
               <span>{label}</span>
             </div>
           ))}
+        </section>
+
+        <section className={styles.marketSection} aria-label="Crypto market overview">
+          <div className={styles.marketIntro}>
+            <p className={styles.eyebrow}>Web3 market view</p>
+            <h2>Track coins, fees, and recovery payment routes.</h2>
+            <p>
+              Use this static market board to understand common assets, network
+              behavior, and payment options before your case is reviewed.
+            </p>
+          </div>
+
+          <div className={styles.tradeBoard}>
+            <div className={styles.coinGrid}>
+              {marketCoins.map((coin, index) => (
+                <article
+                  className={styles.coinCard}
+                  key={coin.symbol}
+                  style={{ '--delay': `${index * 110}ms` }}
+                >
+                  <div className={styles.coinHeader}>
+                    <span>{coin.symbol}</span>
+                    <strong>{coin.change}</strong>
+                  </div>
+                  <h3>{coin.name}</h3>
+                  <p>{coin.price}</p>
+                  <div>
+                    <small>24h volume</small>
+                    <b>{coin.volume}</b>
+                  </div>
+                  <em>{coin.fee}</em>
+                </article>
+              ))}
+            </div>
+
+            <aside className={styles.tradePanel} aria-label="Trade route preview">
+              <div className={styles.panelTop}>
+                <span>Route preview</span>
+                <strong>USDT / TRON</strong>
+              </div>
+              <div className={styles.chart}>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div className={styles.tradeRows}>
+                <div>
+                  <span>Network fee</span>
+                  <strong>Low</strong>
+                </div>
+                <div>
+                  <span>Review status</span>
+                  <strong>Required</strong>
+                </div>
+                <div>
+                  <span>Invoice wallet</span>
+                  <strong>After approval</strong>
+                </div>
+              </div>
+            </aside>
+          </div>
         </section>
 
         <section className={styles.sliderSection} aria-label="Recovery service slides">
