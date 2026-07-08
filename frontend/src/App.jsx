@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link, NavLink, Route, Routes } from 'react-router-dom'
 import styles from './App.module.css'
 import Home from './pages/home/Home.jsx'
@@ -8,6 +9,58 @@ const safetyRules = [
   'Crypto transfers cannot be guaranteed reversible after confirmation.',
   'Only pay against a written scope and invoice from a verified contact.',
 ]
+
+function CookieBanner() {
+  const [status, setStatus] = useState(() => (
+    window.localStorage.getItem('watchwallet-cookies') || 'pending'
+  ))
+  const [showPreferences, setShowPreferences] = useState(false)
+
+  const saveChoice = (choice) => {
+    window.localStorage.setItem('watchwallet-cookies', choice)
+    setStatus(choice)
+  }
+
+  if (status !== 'pending') {
+    return null
+  }
+
+  return (
+    <section className={styles.cookieBanner} aria-label="Cookie notice">
+      <div>
+        <strong>Cookie notice</strong>
+        <p>
+          We use necessary cookies to keep the site reliable and secure. With
+          your permission, we may also use analytics cookies to understand page
+          performance and improve the recovery request experience.
+        </p>
+        {showPreferences && (
+          <div className={styles.cookiePreferences}>
+            <label>
+              <input type="checkbox" checked readOnly />
+              Strictly necessary cookies
+            </label>
+            <label>
+              <input type="checkbox" />
+              Analytics and improvement cookies
+            </label>
+          </div>
+        )}
+      </div>
+      <div className={styles.cookieActions}>
+        <button type="button" onClick={() => setShowPreferences((value) => !value)}>
+          Cookie preferences
+        </button>
+        <button type="button" onClick={() => saveChoice('rejected')}>
+          Reject additional cookies
+        </button>
+        <button type="button" onClick={() => saveChoice('accepted')}>
+          Accept cookies and continue
+        </button>
+      </div>
+    </section>
+  )
+}
 
 function Layout({ children }) {
   return (
@@ -41,6 +94,8 @@ function Layout({ children }) {
           <Link to="/security">Security rules</Link>
         </div>
       </footer>
+
+      <CookieBanner />
     </div>
   )
 }
