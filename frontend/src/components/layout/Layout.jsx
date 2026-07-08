@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import logo from '../../assets/logo.png'
 import styles from './Layout.module.css'
 
 function CookieBanner() {
@@ -59,7 +60,7 @@ function Layout({ children }) {
     <div className={styles.shell}>
       <header className={styles.header}>
         <Link className={styles.brand} to="/" aria-label="WatchWallet home">
-          <span className={styles.brandMark}>W</span>
+          <img className={styles.brandMark} src={logo} alt="" />
           <span>WatchWallet</span>
         </Link>
 
@@ -78,7 +79,10 @@ function Layout({ children }) {
 
       <footer className={styles.footer}>
         <div>
-          <strong>WatchWallet</strong>
+          <span className={styles.footerBrand}>
+            <img src={logo} alt="" />
+            <strong>WatchWallet</strong>
+          </span>
           <p>Professional, non-custodial wallet incident review.</p>
         </div>
         <div className={styles.footerLinks}>
