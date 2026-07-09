@@ -90,6 +90,7 @@ const initialFormData = {
 }
 
 const storageKey = 'watchwallet-recovery-form'
+const submissionStorageKey = 'watchwallet-recovery-submission'
 
 function Recover() {
   const [formData, setFormData] = useState(() => {
@@ -105,6 +106,20 @@ function Recover() {
       return initialFormData
     }
   })
+  const [submission, setSubmission] = useState(() => {
+    const savedSubmission = window.localStorage.getItem(submissionStorageKey)
+
+    if (!savedSubmission) {
+      return null
+    }
+
+    try {
+      return JSON.parse(savedSubmission)
+    } catch {
+      return null
+    }
+  })
+  const [error, setError] = useState('')
 
   const selectedWallet = paymentWallets.find((wallet) => (
     wallet.id === formData.paymentWallet
@@ -116,6 +131,49 @@ function Recover() {
 
     setFormData(nextData)
     window.localStorage.setItem(storageKey, JSON.stringify(nextData))
+  }
+
+  const submitRecoveryRequest = (event) => {
+    event.preventDefault()
+
+    const requiredFields = [
+      'name',
+      'email',
+      'lockedLocation',
+      'asset',
+      'network',
+      'lockedAmount',
+      'walletAddress',
+      'transactionProof',
+      'paymentWallet',
+    ]
+    const missingField = requiredFields.find((field) => !formData[field].trim())
+
+    if (missingField) {
+      setError('Please complete the required case and payment fields before submitting.')
+      return
+    }
+
+    const nextSubmission = {
+      ...formData,
+      reviewFee: '$49 demo review fee',
+      demoWalletName: selectedWallet?.name,
+      demoWalletAddress: selectedWallet?.demoAddress,
+      submittedAt: new Date().toISOString(),
+      reference: `WW-${Date.now().toString().slice(-6)}`,
+    }
+
+    window.localStorage.setItem(submissionStorageKey, JSON.stringify(nextSubmission))
+    setSubmission(nextSubmission)
+    setError('')
+  }
+
+  const clearDraft = () => {
+    window.localStorage.removeItem(storageKey)
+    window.localStorage.removeItem(submissionStorageKey)
+    setFormData(initialFormData)
+    setSubmission(null)
+    setError('')
   }
 
   return (
@@ -154,7 +212,7 @@ function Recover() {
           </article>
         </section>
 
-        <form className={styles.recoveryForm}>
+        <form className={styles.recoveryForm} onSubmit={submitRecoveryRequest}>
           <section className={styles.formSection}>
             <div className={styles.sectionTitle}>
               <p className={layoutStyles.kicker}>Your contact</p>
@@ -169,6 +227,7 @@ function Recover() {
                   placeholder="Your name"
                   value={formData.name}
                   onChange={updateFormData}
+                  required
                 />
               </label>
               <label>
@@ -179,6 +238,7 @@ function Recover() {
                   placeholder="you@example.com"
                   value={formData.email}
                   onChange={updateFormData}
+                  required
                 />
               </label>
               <label>
@@ -206,6 +266,7 @@ function Recover() {
                   name="lockedLocation"
                   value={formData.lockedLocation}
                   onChange={updateFormData}
+                  required
                 >
                   <option value="" disabled>
                     Select where the funds are locked
@@ -223,6 +284,7 @@ function Recover() {
                   placeholder="Example: BTC, ETH, USDT"
                   value={formData.asset}
                   onChange={updateFormData}
+                  required
                 />
               </label>
               <label>
@@ -231,6 +293,7 @@ function Recover() {
                   name="network"
                   value={formData.network}
                   onChange={updateFormData}
+                  required
                 >
                   <option value="" disabled>
                     Select a network
@@ -252,6 +315,7 @@ function Recover() {
                   placeholder="Example: 0.25 BTC or 4,000 USDT"
                   value={formData.lockedAmount}
                   onChange={updateFormData}
+                  required
                 />
               </label>
               <label className={styles.wideField}>
@@ -262,6 +326,7 @@ function Recover() {
                   placeholder="Public wallet address, exchange case ID, or platform username"
                   value={formData.walletAddress}
                   onChange={updateFormData}
+                  required
                 />
               </label>
               <label className={styles.wideField}>
@@ -272,6 +337,7 @@ function Recover() {
                   placeholder="Paste public transaction hashes, explorer links, dates, and the platform involved"
                   value={formData.transactionProof}
                   onChange={updateFormData}
+                  required
                 ></textarea>
               </label>
             </div>
@@ -309,6 +375,7 @@ function Recover() {
                     value={wallet.id}
                     checked={formData.paymentWallet === wallet.id}
                     onChange={updateFormData}
+                    required
                   />
                   <span>
                     <strong>{wallet.name}</strong>
@@ -421,10 +488,55 @@ function Recover() {
             </p>
           </section>
 
-          <button className={styles.submitButton} type="button">
-            Request review and invoice details
-          </button>
+          {error && (
+            <p className={styles.errorMessage}>{error}</p>
+          )}
+
+          <div className={styles.formActions}>
+            <button className={styles.submitButton} type="submit">
+              Request review and invoice details
+            </button>
+            <button className={styles.clearButton} type="button" onClick={clearDraft}>
+              Clear saved draft
+            </button>
+          </div>
         </form>
+
+        {submission && (
+          <section className={styles.confirmationPanel} aria-live="polite">
+            <div>
+              <p className={layoutStyles.kicker}>Request saved</p>
+              <h2>Review request created</h2>
+              <p>
+                Your request was saved locally with reference
+                {' '}
+                <strong>{submission.reference}</strong>
+                . This demo does not send data to a server yet.
+              </p>
+            </div>
+            <dl>
+              <div>
+                <dt>Review fee</dt>
+                <dd>{submission.reviewFee}</dd>
+              </div>
+              <div>
+                <dt>Payment wallet</dt>
+                <dd>{submission.demoWalletName}</dd>
+              </div>
+              <div>
+                <dt>Demo wallet address</dt>
+                <dd>{submission.demoWalletAddress}</dd>
+              </div>
+              <div>
+                <dt>Locked funds</dt>
+                <dd>{submission.lockedAmount} {submission.asset} on {submission.network}</dd>
+              </div>
+            </dl>
+            <p className={styles.confirmationNote}>
+              Demo only: do not send money to placeholder wallet addresses.
+            </p>
+          </section>
+        )}
       </main>
     </Layout>
   )
