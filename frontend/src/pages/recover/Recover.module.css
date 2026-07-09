@@ -282,18 +282,97 @@
   margin: 0;
 }
 
+.errorMessage {
+  margin: 0;
+  border-radius: 18px;
+  padding: 16px 18px;
+  color: #991b1b;
+  background: #fee2e2;
+  font-weight: 800;
+}
+
+.formActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .submitButton {
   min-height: 56px;
   border: 0;
   border-radius: 999px;
   padding: 0 26px;
-  justify-self: start;
   color: #ffffff;
   background: #0b65c6;
   font: inherit;
   font-weight: 900;
   cursor: pointer;
   box-shadow: 0 16px 28px rgba(11, 101, 198, 0.24);
+}
+
+.clearButton {
+  min-height: 56px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 26px;
+  color: #0b65c6;
+  background: #eaf4ff;
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.confirmationPanel {
+  margin-top: 28px;
+  padding: 28px;
+  border-radius: 30px;
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 88% 16%, rgba(29, 191, 115, 0.28), transparent 11rem),
+    #121826;
+  box-shadow: 0 24px 70px rgba(18, 24, 38, 0.18);
+}
+
+.confirmationPanel h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  line-height: 1;
+}
+
+.confirmationPanel p {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.confirmationPanel dl {
+  margin: 22px 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.confirmationPanel dl div {
+  min-width: 0;
+  border-radius: 18px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.confirmationPanel dt {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.86rem;
+}
+
+.confirmationPanel dd {
+  margin: 6px 0 0;
+  color: #ffffff;
+  overflow-wrap: anywhere;
+  font-weight: 850;
+}
+
+.confirmationNote {
+  margin: 18px 0 0;
+  color: #fcd34d;
+  font-weight: 850;
 }
 
 @media (max-width: 820px) {
@@ -315,10 +394,15 @@
   .feeSection {
     padding: 20px;
   }
+
+  .confirmationPanel dl {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 520px) {
-  .submitButton {
+  .submitButton,
+  .clearButton {
     width: 100%;
   }
 }
