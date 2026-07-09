@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Layout from '../../components/layout/Layout.jsx'
 import layoutStyles from '../../components/layout/Layout.module.css'
+import { apiRequest } from '../../lib/api.js'
 import styles from './Recover.module.css'
 
 const paymentWallets = [
@@ -133,7 +134,7 @@ function Recover() {
     window.localStorage.setItem(storageKey, JSON.stringify(nextData))
   }
 
-  const submitRecoveryRequest = (event) => {
+  const submitRecoveryRequest = async (event) => {
     event.preventDefault()
 
     const requiredFields = [
@@ -163,9 +164,18 @@ function Recover() {
       reference: `WW-${Date.now().toString().slice(-6)}`,
     }
 
-    window.localStorage.setItem(submissionStorageKey, JSON.stringify(nextSubmission))
-    setSubmission(nextSubmission)
-    setError('')
+    try {
+      const payload = await apiRequest('/api/recovery-requests', {
+        method: 'POST',
+        body: JSON.stringify(nextSubmission),
+      })
+
+      window.localStorage.setItem(submissionStorageKey, JSON.stringify(payload.record))
+      setSubmission(payload.record)
+      setError('')
+    } catch (requestError) {
+      setError(`Could not save to JSON file. Start the API server and try again. ${requestError.message}`)
+    }
   }
 
   const clearDraft = () => {
@@ -508,10 +518,10 @@ function Recover() {
               <p className={layoutStyles.kicker}>Request saved</p>
               <h2>Review request created</h2>
               <p>
-                Your request was saved locally with reference
+                Your request was saved to the JSON file with reference
                 {' '}
                 <strong>{submission.reference}</strong>
-                . This demo does not send data to a server yet.
+                .
               </p>
             </div>
             <dl>

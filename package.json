@@ -1,0 +1,10 @@
+{
+  "name": "watchwallet",
+  "private": true,
+  "scripts": {
+    "api": "cd frontend && npm exec -- node ../backend/server.js",
+    "frontend": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "lint": "cd frontend && npm run lint"
+  }
+}
